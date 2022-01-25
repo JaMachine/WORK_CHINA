@@ -4,6 +4,7 @@
     package="com.example.myapplication">
 
     <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".PushConnect"
         android:allowBackup="true"
@@ -14,6 +15,9 @@
         android:theme="@style/Theme.MyApplication"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
+        <activity
+            android:name=".Playa"
+            android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="true">
