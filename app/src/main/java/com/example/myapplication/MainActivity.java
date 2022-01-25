@@ -43,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
         flow.setWebChromeClient(new WebChromeClient());
         flowConfig = flow.getSettings();
         flowConfig.setJavaScriptEnabled(true);
+        flowConfig.setDomStorageEnabled(true);
+        flowConfig.setLoadsImagesAutomatically(true);
         startTicker();
 
 
