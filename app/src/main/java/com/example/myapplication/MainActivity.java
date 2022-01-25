@@ -1,15 +1,15 @@
 package com.example.myapplication;
 
-import static android.content.ContentValues.TAG;
 import static com.example.myapplication.AllInts.ticks;
 import static com.example.myapplication.AllStrings.lingXiaoyu;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -30,6 +30,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        View overlay = findViewById(R.id.m_a);
+        overlay.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
         screenHolder = findViewById(R.id.screen_holder);
         fireConnect = new FireConnect(this);
         flow = findViewById(R.id.flow);
@@ -72,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
                 if (ticks > 0) {
                     if (!lingXiaoyu.equals(flow.getUrl())) {
                         screenHolder.setVisibility(View.GONE);
+                        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR);
                     } else startLoader();
                 } else startActivity(new Intent(MainActivity.this, Playa.class));
             }
@@ -80,6 +87,11 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        View overlay = findViewById(R.id.m_a);
+        overlay.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         navBack();
     }
 
@@ -88,5 +100,15 @@ public class MainActivity extends AppCompatActivity {
             flow.goBack();
             boolean x = true;
         }
+    }
+
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        View overlay = findViewById(R.id.m_a);
+        overlay.setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
     }
 }
