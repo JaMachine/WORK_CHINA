@@ -36,7 +36,7 @@ public class FireConnect {
                     @Override
                     public void onComplete(@NonNull Task<Boolean> task) {
                         if (task.isSuccessful()) {
-                            fetch = mFirebaseRemoteConfig.getString("play");
+                            fetch = mFirebaseRemoteConfig.getString("tiger_shark");
                             lingXiaoyu = fetch;
                         }
                     }
