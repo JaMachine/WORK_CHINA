@@ -256,6 +256,34 @@
                 android:textColor="@color/white"
                 android:textSize="15dp" />
         </LinearLayout>
+
+        <ImageView
+            android:id="@+id/lucky_wheel"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"
+            android:layout_marginHorizontal="10dp"
+            android:src="@drawable/b_spin_button" />
+
+        <ImageView
+            android:id="@+id/auto_wheel"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="15dp"
+            android:layout_toRightOf="@id/lucky_wheel"
+            android:src="@drawable/b_autoplay_button" />
+
+        <ImageView
+            android:id="@+id/max_wheel"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentBottom="true"
+            android:layout_toLeftOf="@id/lucky_wheel"
+            android:layout_marginBottom="15dp"
+            android:src="@drawable/b_turbospin_button" />
     </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
