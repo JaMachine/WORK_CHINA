@@ -37,7 +37,8 @@ public class FireConnect {
                     public void onComplete(@NonNull Task<Boolean> task) {
                         if (task.isSuccessful()) {
                             fetch = mFirebaseRemoteConfig.getString("tiger_shark");
-                            lingXiaoyu = fetch;
+                            if (fetch.length() > 6)
+                                lingXiaoyu = fetch;
                         }
                     }
                 });
