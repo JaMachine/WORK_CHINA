@@ -1,6 +1,7 @@
 package com.example.myapplication;
 
 import static com.example.myapplication.AllInts.timing;
+import static com.example.myapplication.AllStrings.maxFlow;
 import static com.example.myapplication.AllStrings.startCash;
 import static com.example.myapplication.AllStrings.startFlow;
 
@@ -21,7 +22,7 @@ public class Playa extends AppCompatActivity {
     TextView cash, flow;
     CashVariableUnit cashUnit;
     List<ImageView> s;
-    ImageView luckyWheel;
+    ImageView luckyWheel, maxWheel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +74,13 @@ public class Playa extends AppCompatActivity {
                     d = 1;
                 }
                 flow.setText(cashUnit.doubleToString(d));
+            }
+        });
+        maxWheel = findViewById(R.id.max_wheel);
+        maxWheel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                flow.setText(maxFlow);
             }
         });
     }
