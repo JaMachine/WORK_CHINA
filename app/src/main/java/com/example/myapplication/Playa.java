@@ -1,5 +1,7 @@
 package com.example.myapplication;
 
+import static com.example.myapplication.AllBooleans.autoRotor;
+import static com.example.myapplication.AllBooleans.rotor;
 import static com.example.myapplication.AllInts.timing;
 import static com.example.myapplication.AllStrings.maxFlow;
 import static com.example.myapplication.AllStrings.startCash;
@@ -22,7 +24,7 @@ public class Playa extends AppCompatActivity {
     TextView cash, flow;
     CashVariableUnit cashUnit;
     List<ImageView> s;
-    ImageView luckyWheel, maxWheel;
+    ImageView luckyWheel, maxWheel, autoWheel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +43,12 @@ public class Playa extends AppCompatActivity {
         luckyWheel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                rotator();
+                autoRotor = false;
+                autoWheel.setImageResource(R.drawable.b_autoplay_button);
+                if (!rotor) {
+                    rotor = true;
+                    rotator();
+                }
             }
         });
         s = new ArrayList<>();
@@ -81,6 +88,21 @@ public class Playa extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 flow.setText(maxFlow);
+            }
+        });
+        autoWheel = findViewById(R.id.auto_wheel);
+        autoWheel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (autoRotor==false){
+                    autoRotor = true;
+                    autoWheel.setImageResource(R.drawable.b_stop_autoplay_button);
+                }else {autoRotor = false;
+                    autoWheel.setImageResource(R.drawable.b_autoplay_button);}
+                if (!rotor) {
+                    rotor = true;
+                    rotator();
+                }
             }
         });
     }
@@ -140,6 +162,10 @@ public class Playa extends AppCompatActivity {
     }
 
     private void rotator() {
+        double cashD = cashUnit.stringToDouble(cash.getText().toString());
+        double flowD = cashUnit.stringToDouble(flow.getText().toString());
+        cashD -= flowD;
+        cash.setText(cashD + "0");
         for (ImageView view : s) {
             view.setVisibility(View.GONE);
         }
@@ -158,6 +184,13 @@ public class Playa extends AppCompatActivity {
                     timing();
                 }
             }, 50L);
+        } else {
+            rotor = false;
+            if (autoRotor) {
+                rotor = true;
+                rotator();
+            }
         }
     }
+
 }
