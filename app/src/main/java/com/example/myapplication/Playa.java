@@ -1,18 +1,19 @@
 package com.example.myapplication;
 
+import static com.example.myapplication.AllInts.timing;
 import static com.example.myapplication.AllStrings.startCash;
 import static com.example.myapplication.AllStrings.startFlow;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.text.NumberFormat;
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +21,7 @@ public class Playa extends AppCompatActivity {
     TextView cash, flow;
     CashVariableUnit cashUnit;
     List<ImageView> s;
+    ImageView luckyWheel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +36,13 @@ public class Playa extends AppCompatActivity {
         cash = findViewById(R.id.cash);
         flow = findViewById(R.id.flow);
         cashUnit = new CashVariableUnit();
+        luckyWheel = findViewById(R.id.lucky_wheel);
+        luckyWheel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                rotator();
+            }
+        });
         s = new ArrayList<>();
         s.add(findViewById(R.id.s1));
         s.add(findViewById(R.id.s2));
@@ -80,6 +89,7 @@ public class Playa extends AppCompatActivity {
 
     private void randominoid(ImageView view) {
         int chooser = (int) (Math.random() * 12) + 1;
+        view.setTag("index" + chooser);
         switch (chooser) {
             case 1:
                 view.setImageResource(R.drawable.s_1);
@@ -118,7 +128,28 @@ public class Playa extends AppCompatActivity {
                 view.setImageResource(R.drawable.s_12);
                 break;
 
+        }
+    }
 
+    private void rotator() {
+        for (ImageView view : s) {
+            view.setVisibility(View.GONE);
+        }
+        timing = 0;
+        timing();
+    }
+
+    private void timing() {
+        if (timing < 15) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    s.get(timing).setVisibility(View.VISIBLE);
+                    randominoid(s.get(timing));
+                    timing++;
+                    timing();
+                }
+            }, 50L);
         }
     }
 }
