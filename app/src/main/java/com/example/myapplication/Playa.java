@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import static android.content.ContentValues.TAG;
 import static com.example.myapplication.AllBooleans.autoRotor;
 import static com.example.myapplication.AllBooleans.rotor;
 import static com.example.myapplication.AllInts.timing;
@@ -10,6 +11,7 @@ import static com.example.myapplication.AllStrings.startFlow;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -24,7 +26,7 @@ public class Playa extends AppCompatActivity {
     TextView cash, flow;
     CashVariableUnit cashUnit;
     List<ImageView> s;
-    ImageView luckyWheel, maxWheel, autoWheel;
+    ImageView luckyWheel, maxWheel, autoWheel, showTreasure;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +41,8 @@ public class Playa extends AppCompatActivity {
         cash = findViewById(R.id.cash);
         flow = findViewById(R.id.flow);
         cashUnit = new CashVariableUnit();
+        showTreasure = findViewById(R.id.show_treasure);
+        showTreasure.setVisibility(View.GONE);
         luckyWheel = findViewById(R.id.lucky_wheel);
         luckyWheel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,11 +98,13 @@ public class Playa extends AppCompatActivity {
         autoWheel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (autoRotor==false){
+                if (autoRotor == false) {
                     autoRotor = true;
                     autoWheel.setImageResource(R.drawable.b_stop_autoplay_button);
-                }else {autoRotor = false;
-                    autoWheel.setImageResource(R.drawable.b_autoplay_button);}
+                } else {
+                    autoRotor = false;
+                    autoWheel.setImageResource(R.drawable.b_autoplay_button);
+                }
                 if (!rotor) {
                     rotor = true;
                     rotator();
@@ -162,6 +168,7 @@ public class Playa extends AppCompatActivity {
     }
 
     private void rotator() {
+        showTreasure.setVisibility(View.GONE);
         double cashD = cashUnit.stringToDouble(cash.getText().toString());
         double flowD = cashUnit.stringToDouble(flow.getText().toString());
         cashD -= flowD;
@@ -186,11 +193,52 @@ public class Playa extends AppCompatActivity {
             }, 50L);
         } else {
             rotor = false;
+            takeMoneyAndGo();
             if (autoRotor) {
                 rotor = true;
                 rotator();
             }
         }
+    }
+
+    private void takeMoneyAndGo() {
+        int treasury = 1;
+        if (s.get(2).getTag().equals(s.get(1)) && s.get(1).getTag().equals(s.get(0)))
+            treasury++;
+        if (s.get(5).getTag().equals(s.get(4)) && s.get(4).getTag().equals(s.get(3)))
+            treasury++;
+        if (s.get(8).getTag().equals(s.get(7)) && s.get(7).getTag().equals(s.get(6)))
+            treasury++;
+        if (s.get(11).getTag().equals(s.get(10)) && s.get(10).getTag().equals(s.get(9)))
+            treasury++;
+        if (s.get(14).getTag().equals(s.get(13)) && s.get(13).getTag().equals(s.get(12)))
+            treasury++;
+        if (s.get(2).getTag().equals(s.get(5)) && s.get(5).getTag().equals(s.get(8)))
+            treasury++;
+        if (s.get(5).getTag().equals(s.get(8)) && s.get(8).getTag().equals(s.get(11)))
+            treasury++;
+        if (s.get(8).getTag().equals(s.get(11)) && s.get(11).getTag().equals(s.get(14)))
+            treasury++;
+        if (s.get(1).getTag().equals(s.get(4)) && s.get(4).getTag().equals(s.get(7)))
+            treasury++;
+        if (s.get(6).getTag().equals(s.get(9)) && s.get(9).getTag().equals(s.get(12)))
+            treasury++;
+        if (s.get(4).getTag().equals(s.get(7)) && s.get(7).getTag().equals(s.get(10)))
+            treasury++;
+        if (s.get(7).getTag().equals(s.get(10)) && s.get(10).getTag().equals(s.get(13)))
+            treasury++;
+        if (s.get(0).getTag().equals(s.get(3)) && s.get(3).getTag().equals(s.get(6)))
+            treasury++;
+        if (s.get(3).getTag().equals(s.get(6)) && s.get(6).getTag().equals(s.get(9)))
+            treasury++;
+        if (treasury > 1) {
+            cash.setText(cashUnit.doubleToString(cashUnit.stringToDouble(flow.getText().toString()) * treasury));
+            showTreasure.setVisibility(View.VISIBLE);
+            if (treasury == 1) showTreasure.setImageResource(R.drawable.w_big_win);
+            if (treasury == 2) showTreasure.setImageResource(R.drawable.w_mega_win);
+            if (treasury == 3) showTreasure.setImageResource(R.drawable.w_giant_win);
+        }
+
     }
 
 }
