@@ -1,6 +1,6 @@
 package com.example.myapplication;
 
-import static android.content.ContentValues.TAG;
+
 import static com.example.myapplication.AllBooleans.autoRotor;
 import static com.example.myapplication.AllBooleans.rotor;
 import static com.example.myapplication.AllInts.timing;
@@ -11,7 +11,6 @@ import static com.example.myapplication.AllStrings.startFlow;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -26,7 +25,7 @@ public class Playa extends AppCompatActivity {
     TextView cash, flow;
     CashVariableUnit cashUnit;
     List<ImageView> s;
-    ImageView luckyWheel, maxWheel, autoWheel, showTreasure;
+    ImageView luckyWheel, maxWheel, autoWheel, showTreasure, mini, maxi;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +40,30 @@ public class Playa extends AppCompatActivity {
         cash = findViewById(R.id.cash);
         flow = findViewById(R.id.flow);
         cashUnit = new CashVariableUnit();
+        mini = findViewById(R.id.mini);
+        mini.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                double d = cashUnit.stringToDouble(flow.getText().toString());
+                d -= 1;
+                if (d < 1) {
+                    d = 50;
+                }
+                flow.setText(cashUnit.doubleToString(d));
+            }
+        });
+        maxi = findViewById(R.id.maxi);
+        maxi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                double d = cashUnit.stringToDouble(flow.getText().toString());
+                d += 1;
+                if (d > 50) {
+                    d = 1;
+                }
+                flow.setText(cashUnit.doubleToString(d));
+            }
+        });
         showTreasure = findViewById(R.id.show_treasure);
         showTreasure.setVisibility(View.GONE);
         luckyWheel = findViewById(R.id.lucky_wheel);
@@ -79,12 +102,6 @@ public class Playa extends AppCompatActivity {
         flow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                double d = cashUnit.stringToDouble(flow.getText().toString());
-                d += 1;
-                if (d > 50) {
-                    d = 1;
-                }
-                flow.setText(cashUnit.doubleToString(d));
             }
         });
         maxWheel = findViewById(R.id.max_wheel);
